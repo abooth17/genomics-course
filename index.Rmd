@@ -1,15 +1,16 @@
 ---
 title: "Bio 597GE: Evolutionary Genomics and Bioinformatics"
 author: "Abigail Booth"
-date: "8/31/2020"
 output: 
-  rmarkdown::html_document:
-    theme: spacelab
+  html_document:
+    theme: flatly
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+Lab Documents:
 
 [Lab1](lab1_AbigailBooth.html)
 
