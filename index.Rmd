@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "index.Rmd"
 author: "Abigail Booth"
 date: "8/31/2020"
 output: html_document
@@ -8,9 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
- 
-## Github link 
-## https://github.com/abooth17/genomics-course.git
 
 ## R Markdown
 
