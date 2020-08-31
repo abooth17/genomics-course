@@ -44,5 +44,6 @@ ordered <- sort(nucleotides)
 ordered
 ```
 
+Application written in R [@RCoreTeam]
+
 # REFERENCES
-### RStudio Team (2020). RStudio: Integrated Development for R. RStudio, PBC, Boston, MA URL http://www.rstudio.com/.
