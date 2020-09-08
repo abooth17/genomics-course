@@ -24,14 +24,14 @@ surveys <- read.csv("data/portal_data_joined.csv")
 head(surveys)
 ```
 
-### Looking at only the first few lines of data
+Looking at only the first few lines of data
 ```{r}
 head(surveys)
 ```
 ```{r}
 View(surveys)
 ```
-### To see the structure of the data frame
+To see the structure of the data frame
 ```{r}
 str(surveys)
 ```
@@ -93,6 +93,7 @@ surveys$species_id          # Result is a vector
 1. 
 ```{r}
 surveys_200 <- surveys[200, ]
+surveys_200
 ```
 2. 
 ```{r}
@@ -160,6 +161,7 @@ levels(sex)
 sex <- factor(sex, levels = c("female", "male", "undetermined"))
 plot(sex)
 ```
+
 ### Using stringsAsFactors = FALSE
 ```{r}
 ## Compare the difference between our data read as `factor` vs `character`.
@@ -182,8 +184,7 @@ Corrected:
 animal_data <- data.frame(
           animal = c("dog", "cat", "sea cucumber", "sea,urchin"),
           feel = c("furry", "squishy", "spiny", "scaly"),
-          weight = c(45, 8, 1.1, 0.8)
-          )
+          weight = c(45, 8, 1.1, 0.8))
 ```
 2. I would predict that country, climate, northern_hemisphere, and has_kangaroo are factors because they are all categorical and temperature is numeric. 
 ```{r}
@@ -192,8 +193,7 @@ country_climate <- data.frame(
        climate = c("cold", "hot", "temperate", "hot/temperate"),
        temperature = c(10, 30, 18, "15"),
        northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
-       has_kangaroo = c(FALSE, FALSE, FALSE, 1)
-       )
+       has_kangaroo = c(FALSE, FALSE, FALSE, 1))
 str(country_climate)
 ```
 The classes are not what I would have expected, but since has_kangaroo is the only column to have no quotations and a number, it makes sense that it is a numeric. If stringsAsFactors = FALSE would have converted all of the factors to character vectors because there is text. To make sure eack column had the accurate data type, the entries would need to be checked to confirm that the intended classes were correct. More specifically, the quotes would need to be removed from 15 in climate, the FALSE would need to be taken out of quotes in northern_hemisphere, and the 1 in has_kangaroo would most likely need to be changed to TRUE. 
