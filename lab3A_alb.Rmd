@@ -56,11 +56,11 @@ surveys[1, 6]
 ```
 ```{r}
 # first column of the data frame (as a vector)
-surveys[, 1]
+head(surveys[, 1])
 ```
 ```{r}
 # first column of the data frame (as a data.frame)
-surveys[1]
+head(surveys[1])
 ```
 ```{r}
 # first three elements in the 7th column (as a vector)
@@ -78,16 +78,16 @@ head_surveys <- surveys[1:6, ]
 surveys[-(7:34786), ] # Equivalent to head(surveys)
 ```
 ```{r}
-surveys["species_id"]       # Result is a data.frame
+head(surveys["species_id"])      # Result is a data.frame
 ```
 ```{r}
-surveys[, "species_id"]     # Result is a vector
+head(surveys[, "species_id"])    # Result is a vector
 ```
 ```{r}
-surveys[["species_id"]]     # Result is a vector
+head(surveys[["species_id"]])     # Result is a vector
 ```
 ```{r}
-surveys$species_id          # Result is a vector
+head(surveys$species_id)          # Result is a vector
 ```
 ### Challenge: Indexing and subsetting data frames
 1. 
@@ -215,9 +215,9 @@ my_date <- ymd(paste("2015", "1", "1", sep = "-"))
 str(my_date)
 ```
 ```{r}
-paste(surveys$year, surveys$month, surveys$day, sep = "-")
+head(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
 ```
-```{r}
+```{r, results = "hide"}
 ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
 ```
 ```{r}
