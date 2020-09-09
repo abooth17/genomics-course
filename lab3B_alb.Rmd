@@ -25,10 +25,10 @@ View(surveys)
 select(surveys, plot_id, species_id, weight)
 ```
 ```{r}
-select(surveys, -record_id, -species_id)
+head(select(surveys, -record_id, -species_id))
 ```
 ```{r}
-filter(surveys, year == 1995)
+head(filter(surveys, year == 1995))
 ```
 ### Pipes 
 ```{r}
@@ -55,13 +55,14 @@ surveys_sml
 piped_surveys <- surveys %>%
   filter(year < 1995) %>% 
   select(year, sex, weight)
-piped_surveys
+head(piped_surveys)
 ```
 ### Mutate
 ```{r}
 surveys %>%
   mutate(weight_kg = weight / 1000,
-         weight_lb = weight_kg * 2.2)
+         weight_lb = weight_kg * 2.2) %>%
+  head()
 ```
 ```{r}
 surveys %>%
@@ -80,7 +81,8 @@ surveys %>%
   filter(!is.na(hindfoot_length)) %>% 
   mutate(hindfoot_cm = (hindfoot_length / 10)) %>%
   filter(hindfoot_cm < 3) %>%
-  select(species_id, hindfoot_cm)
+  select(species_id, hindfoot_cm) %>%
+  head()
 ```
 ### Split-apply-combine data analysis and the summarize() function
 ```{r}
@@ -98,29 +100,16 @@ surveys %>%
 surveys %>%
   filter(!is.na(weight)) %>%
   group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight))
+  summarize(mean_weight = mean(weight)) %>%
+  head()
 ```
 ```{r}
 surveys %>%
   filter(!is.na(weight)) %>%
   group_by(sex, species_id) %>%
   summarize(mean_weight = mean(weight)) %>%
-  print(n = 15)
-```
-```{r}
-surveys %>%
-  filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight),
-            min_weight = min(weight))
-```
-```{r}
-surveys %>%
-  filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight),
-            min_weight = min(weight)) %>%
-  arrange(min_weight)
+  print(n = 15) %>%
+  head()
 ```
 ```{r}
 surveys %>%
@@ -128,7 +117,25 @@ surveys %>%
   group_by(sex, species_id) %>%
   summarize(mean_weight = mean(weight),
             min_weight = min(weight)) %>%
-  arrange(desc(mean_weight))
+  head()
+```
+```{r}
+surveys %>%
+  filter(!is.na(weight)) %>%
+  group_by(sex, species_id) %>%
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight)) %>%
+  arrange(min_weight) %>%
+  head()
+```
+```{r}
+surveys %>%
+  filter(!is.na(weight)) %>%
+  group_by(sex, species_id) %>%
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight)) %>%
+  arrange(desc(mean_weight)) %>%
+  head()
 ```
 ```{r}
 surveys %>%
@@ -136,12 +143,14 @@ surveys %>%
 ```
 ```{r}
 surveys %>%
-  count(sex, species)
+  count(sex, species) %>%
+  head()
 ```
 ```{r}
 surveys %>%
   count(sex, species) %>%
-  arrange(species, desc(n))
+  arrange(species, desc(n)) %>%
+  head()
 ```
 ### Challenge: Split-apply-combine data analysis and the summarize() function
 1. 
@@ -158,8 +167,8 @@ surveys %>%
     mean_hindfoot_length = mean(hindfoot_length),
     min_hindfoot_length = min(hindfoot_length),
     max_hindfoot_length = max(hindfoot_length),
-    n = n()
-    )
+    n = n()) %>%
+  head()
 ```
 3. 
 ```{r}
@@ -168,7 +177,8 @@ surveys %>%
   group_by(year) %>%
   filter(weight == max(weight)) %>%
   arrange(year) %>% 
-  select(year, genus, species_id, weight)
+  select(year, genus, species_id, weight) %>%
+  head()
 ```
 ### Reshaping with gather and spread
 ```{r}
@@ -212,7 +222,8 @@ head(spread_genera_surveys)
 2.
 ```{r}
 spread_genera_surveys %>%
-  gather(key = "year", value = "num_genera", -plot_id)
+  gather(key = "year", value = "num_genera", -plot_id) %>%
+  head()
 ```
 3.
 ```{r}
@@ -225,7 +236,8 @@ head(measure_surveys)
 measure_surveys %>%
   group_by(year, measurement, plot_type) %>%
   summarize(average_measurement = mean(value, na.rm = TRUE)) %>%
-  spread(key = "measurement", value = "average_measurement")
+  spread(key = "measurement", value = "average_measurement") %>% 
+  head()
 ```
 ### Exporting data
 ```{r}
