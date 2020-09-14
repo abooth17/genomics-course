@@ -1,0 +1,185 @@
+---
+title: "lab4_alb.Rmd"
+author: "Abigail Booth"
+date: "September 14, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+```{r}
+report_03_11_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-11-2020.csv")) %>%
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+```
+
+```{r}
+str(report_03_11_2020)
+```
+```{r}
+View(report_03_11_2020)
+```
+```{r}
+library(DT)
+```
+```{r}
+datatable(report_03_11_2020)
+```
+### Exercises (part 1)
+1. The report for 9/13/20 is significantly longer with 3,954 rows and 14 columns in comparison to the 230 rows and 8 columns on 3/13/20. Therefore, many more countries and provinces are included in the later data. A few of the column titles are changed, such as "Latitude" was shortened to "Lat" in the 9/13 data. Also, the report for 9/13/20 has expanded to include information on active cases, combined key, incidence rate, and case fatality ratios with FIPS and Admin2.
+```{r}
+report_03_13_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-13-2020.csv")) %>% 
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+```
+```{r}
+report_09_13_2020 <-  read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-13-2020.csv"))
+```
+```{r}
+str(report_03_13_2020)
+```
+
+```{r}
+str(report_09_13_2020)
+```
+```{r}
+View(report_03_13_2020)
+View(report_09_13_2020)
+```
+2. 
+```{r}
+count_09_13_2020 <- report_09_13_2020 %>%
+  group_by(Country_Region) %>%
+  summarize(Confirmed = sum(Confirmed),
+            Deaths = sum(Deaths),
+            Recovered = sum(Recovered),
+            Active = sum(Active))
+count_09_13_2020
+```
+3. 
+```{r}
+US_confirmed <- report_09_13_2020 %>%
+  filter(!is.na(Province_State)) %>% 
+  filter(Country_Region == "US") %>%
+  group_by(Province_State) %>% 
+  summarize(confirmed_cases = sum(Confirmed))
+US_confirmed
+```
+4. 
+```{r}
+top_10_deaths <- report_09_13_2020 %>%
+  group_by(Country_Region) %>%
+  summarize(max_deaths = max(Deaths)) %>%
+  arrange(desc(max_deaths)) %>%
+  slice(1:10)
+top_10_deaths
+```
+### Exercises (Part 2)
+5. 
+```{r}
+report_03_12_2020 <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-12-2020.csv") %>% 
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+```
+```{r}
+highest_cases_and_deaths_03_12 <- report_03_12_2020 %>%
+  group_by(Country_Region) %>%
+  summarize(confirmed_cases = max(Confirmed),
+            deaths = max(Deaths)) %>%
+  arrange(desc(confirmed_cases)) %>%
+  slice(1:10)
+highest_cases_and_deaths_03_12
+```
+
+Countries with Highest Deaths - March 2020
+
+```{r}
+ggplot(data = highest_cases_and_deaths_03_12, mapping = aes(x = deaths, y = Country_Region)) +
+  geom_point()
+```
+
+Countries with Highest Confirmed Cases - March 2020
+
+```{r}
+ggplot(data = highest_cases_and_deaths_03_12, mapping = aes(x = confirmed_cases, y = Country_Region)) +
+  geom_point()
+```
+
+```{r}
+report_09_12_2020 <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-12-2020.csv")
+```
+```{r}
+highest_cases_and_deaths_09_12 <- report_09_12_2020 %>%
+  group_by(Country_Region) %>%
+  summarize(confirmed_cases = max(Confirmed),
+            deaths = max(Deaths)) %>%
+  arrange(desc(confirmed_cases)) %>%
+  slice(1:10)
+highest_cases_and_deaths_09_12
+```
+
+Countries with Highest Deaths - September 2020
+
+```{r}
+ggplot(data = highest_cases_and_deaths_09_12, mapping = aes(x = deaths, y = Country_Region)) +
+    geom_point()
+```
+
+Countries with Highest Confirmed Cases - September 2020
+
+```{r}
+ggplot(data = highest_cases_and_deaths_09_12, mapping = aes(x = confirmed_cases, y = Country_Region)) +
+    geom_point()
+```
+
+6. 
+```{r}
+US_highest_cases_and_deaths_03_12 <- report_03_12_2020 %>%
+  filter(Country_Region == "US") %>%
+  group_by(Province_State) %>%
+  summarize(confirmed_cases = max(Confirmed),
+            deaths = max(Deaths)) %>%
+  arrange(desc(confirmed_cases)) %>%
+  slice(1:10)
+US_highest_cases_and_deaths_03_12
+```
+
+States with Highest Deaths - March 2020
+
+```{r}
+ggplot(data = US_highest_cases_and_deaths_03_12, mapping = aes(x = deaths, y = Province_State)) +
+  geom_bar(stat = "identity")
+```
+
+States with Highest Confirmed Cases - March 2020
+
+```{r}
+ggplot(data = US_highest_cases_and_deaths_03_12, mapping = aes(x = confirmed_cases, y = Province_State)) +
+  geom_bar(stat = "identity")
+```
+```{r}
+US_highest_cases_and_deaths_09_12 <- report_09_12_2020 %>%
+  filter(Country_Region == "US") %>%
+  group_by(Province_State) %>%
+  summarize(confirmed_cases = max(Confirmed),
+            deaths = max(Deaths)) %>%
+  arrange(desc(confirmed_cases)) %>%
+  slice(1:10)
+US_highest_cases_and_deaths_09_12
+```
+
+States with Highest Deaths - September 2020
+
+```{r}
+ggplot(data = US_highest_cases_and_deaths_09_12, mapping = aes(x = deaths, y = Province_State)) +
+  geom_bar(stat = "identity")
+```
+
+States with Highest Confirmed Cases - September 2020
+
+```{r}
+ggplot(data = US_highest_cases_and_deaths_09_12, mapping = aes(x = confirmed_cases, y = Province_State)) +
+  geom_bar(stat = "identity")
+```

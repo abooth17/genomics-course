@@ -1,0 +1,105 @@
+---
+title: "lab4A.Rmd"
+author: "Abigail Booth"
+date: "September 14, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+```
+```{r}
+surveys_complete <- read_csv("data/surveys_complete.csv")
+```
+```{r}
+ggplot(data = surveys_complete)
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
+```
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+```{r}
+# Assign plot to a variable
+surveys_plot <- ggplot(data = surveys_complete, 
+                       mapping = aes(x = weight, y = hindfoot_length))
+
+# Draw the plot
+surveys_plot + 
+    geom_point()
+```
+```{r}
+# This is the correct syntax for adding layers
+surveys_plot +
+  geom_point()
+
+# This will not add the new layer and will return an error message
+#surveys_plot
+#  + geom_point()
+```
+### Challenge
+```{r}
+library("hexbin")
+```
+```{r}
+surveys_plot +
+  geom_hex()
+```
+A strength of a hexagonal bin plot is that it allows better visualization of areas in the graph with overlapping data points. In a scatter plot, it would not be possible to see the overlapping points, so the strength of the data is less obvious. A weakness of the hexagonal bin plot is that the individual data points can not be as easily separated so outliers and spaces between data points are more difficult to interpret. These differences are clearly visible in looking between the scatter plot and the hexagonal bin plot, especially when looking at the upper left corner of each. However, the plots both represent the same data.
+
+### Building your plots iteratively
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point()
+```
+```{r}
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1)
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, color = "blue")
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, aes(color = species_id))
+```
+### Challenge: Building your plots iteratively
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  geom_point(aes(color = plot_type))
+```
+This isn't a good way to show this data because the plot types should be on the x axis because too many variables are being compared and it is making the data very difficult to interpret.
+
+### Boxplot
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot(alpha = 0) +
+    geom_jitter(alpha = 0.3, color = "tomato")
+```
+### Challenges: Boxplot
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_violin()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  scale_y_log10() +
+  geom_violin()
+```
+```{r}
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_boxplot(alpha = 0.3) +
+  geom_jitter(alpha = 0.1, aes(color = as.factor(plot_id)))
+```
+

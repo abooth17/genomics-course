@@ -19,4 +19,7 @@ Lab Documents:
 * Lab3
   + [Lab3A](lab3A_alb.html)
   + [Lab3B](lab3B_alb.html)
-
+  
+* Lab 4
+  + [Lab4](lab4_alb.html)
+  + [Lab4A](lab4a.html)
