@@ -22,4 +22,4 @@ Lab Documents:
   
 * Lab 4
   + [Lab4](lab4_alb.html)
-  + [Lab4A](lab4a.html)
+  + [Lab4A](lab4A_alb.html)

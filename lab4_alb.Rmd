@@ -29,6 +29,7 @@ library(DT)
 ```{r}
 datatable(report_03_11_2020)
 ```
+
 ### Exercises (part 1)
 1. The report for 9/13/20 is significantly longer with 3,954 rows and 14 columns in comparison to the 230 rows and 8 columns on 3/13/20. Therefore, many more countries and provinces are included in the later data. A few of the column titles are changed, such as "Latitude" was shortened to "Lat" in the 9/13 data. Also, the report for 9/13/20 has expanded to include information on active cases, combined key, incidence rate, and case fatality ratios with FIPS and Admin2.
 ```{r}
