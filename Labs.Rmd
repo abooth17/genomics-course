@@ -1,0 +1,22 @@
+---
+name: "R Labs"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Lab Documents:
+
+* [Lab1](lab1_AbigailBooth.html)
+
+* [Lab2](lab2_alb.html)
+
+* Lab3
+  + [Lab3A](lab3A_alb.html)
+  + [Lab3B](lab3B_alb.html)
+  
+* Lab 4
+  + [Lab4](lab4_alb.html)
+  + [Lab4A](lab4A_alb.html)
