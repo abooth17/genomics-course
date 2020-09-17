@@ -1,17 +1,5 @@
 ---
-name: "Bio 597GE: Evolutionary Genomics and Bioinformatics"
-navbar:
-  title: "Home"
-  left:
-    - text: "R Labs"
-      href: Labs.html
-output: 
-  html_document:
-    theme: flatly
+title: "Home"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Here is my website for Bio 597GE: Evolutionary Genomics and Bioinformatics!
+Welcome to my website for Bio 597GE: Evolutionary Genomics and Bioinformatics!
