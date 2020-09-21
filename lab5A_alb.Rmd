@@ -1,5 +1,5 @@
 ---
-title: "Lab5"
+title: "Lab5_Data_Visualization"
 author: "Abigail Booth"
 date: "September 20, 2020"
 output: html_document
