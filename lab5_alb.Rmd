@@ -208,7 +208,7 @@ Confirmed_State_3_13_6_13_joined <- full_join(Confirmed_State_3_13,
       replace_na(list(Confirmed_3_13_2020 = 0))
 head(Confirmed_State_3_13_6_13_joined)
 ```
-```{r, fig.width = 5, fig.height = 10}
+```{r, fig.width = 6, fig.height = 10}
 Confirmed_State_3_13_6_13_joined_long <- Confirmed_State_3_13_6_13_joined %>% 
               pivot_longer(-c(Province_State),
                             names_to = "Date", values_to = "Confirmed")
@@ -257,18 +257,18 @@ ggplot(time_series_by_day_mutated, aes(x = Date, y = Deaths_per_Confirmed)) +
 7.
 
 ```{r}
-time_series_long_joined %>%
+top_country_deaths <- time_series_long_joined %>%
   group_by(Country_Region) %>%
   summarize(Deaths = sum(Deaths)) %>%
   arrange(desc(Deaths)) %>% 
   slice(1:10)
+top_country_deaths
 ```
 ```{r}
-time_series_long_joined %>%
-  group_by(Country_Region, Date) %>%
-  summarize(Deaths = sum(Deaths)) %>%
-  filter(Country_Region %in% c("US", "Brazil", "United Kingdom", "Italy", "Mexico", "France", "Spain", "India", "Iran", "Peru")) %>% 
+time_series_long_joined %>% 
+  filter(Country_Region%in%top_country_deaths$Country_Region) %>%
   ggplot(aes(x = Date, y = Deaths, color = Country_Region)) +
+  geom_point() +
   geom_line() +
   labs(title = "Countries with Most Covid-19 Deaths", x = "Date", y = "Number of Covid-19 Deaths") +
   theme_bw()

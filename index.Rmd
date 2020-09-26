@@ -34,3 +34,4 @@ Lab Documents:
     + [Part2](lab5A_alb.html)
 * Lab 5
   + [Lab5](lab5_alb.html)
+  + [Lab5_extra](lab5_extra.html)
