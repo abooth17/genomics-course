@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, warnings = FALSE,message = FALSE}
 library(tidyverse)
 library(lubridate)
 ```
@@ -109,7 +109,7 @@ ggplotly(p)
 
 ### Animated Graphs with gganimate
 
-```{r}
+```{r, warnings=FALSE, message=FALSE}
 library(gganimate)
 library(transformr)
 theme_set(theme_bw())

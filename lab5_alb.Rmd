@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, warnings=FALSE,message=FALSE}
 library(tidyverse)
 ```
 
@@ -85,7 +85,7 @@ time_series_confirmed_long <- time_series_confirmed %>%
                             names_to = "Date", values_to = "Confirmed") 
 head(time_series_confirmed_long)
 ```
-```{r}
+```{r, warnings=FALSE, message=FALSE}
 download.file(url="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", 
                destfile = "data/time_series_covid19_deaths_global.csv")
 ```
@@ -121,7 +121,7 @@ which(is.na(time_series_long_joined$Confirmed))
 ```{r}
 which(is.na(time_series_long_joined$Deaths))
 ```
-```{r}
+```{r, warnings=FALSE,message=FALSE}
 library(lubridate)
 ```
 ```{r}
@@ -254,6 +254,7 @@ ggplot(time_series_by_day_mutated, aes(x = Date, y = Deaths_per_Confirmed)) +
        x = "Date",
        y = "Deaths per Confirmed Cases")
 ```
+
 7.
 
 ```{r}
@@ -269,7 +270,6 @@ time_series_long_joined %>%
   filter(Country_Region%in%top_country_deaths$Country_Region) %>%
   ggplot(aes(x = Date, y = Deaths, color = Country_Region)) +
   geom_point() +
-  geom_line() +
   labs(title = "Countries with Most Covid-19 Deaths", x = "Date", y = "Number of Covid-19 Deaths") +
   theme_bw()
 ```
