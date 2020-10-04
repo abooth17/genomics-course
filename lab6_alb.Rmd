@@ -52,7 +52,7 @@ ggplot(daily_report, aes(x = Long, y = Lat, size = Confirmed/1000)) +
     theme(legend.position = "right") +
     coord_fixed(ratio=1.5)
 ```
-```{r}
+```{r, warning=FALSE}
 mybreaks <- c(1, 100, 1000, 10000, 10000)
 ggplot(daily_report, aes(x = Long, y = Lat, size = Confirmed)) +
     borders("state", colour = "white", fill = "grey90") +
@@ -133,7 +133,7 @@ ggplot(data = us, mapping = aes(x = long, y = lat, group = group)) +
   ggtitle("Number of Confirmed Cases by US County") +
   theme_bw() 
 ```
-```{r}
+```{r, warning=FALSE}
 daily_report <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-02-2020.csv")) %>% 
   rename(Long = "Long_") %>% 
   filter(Province_State == "Massachusetts") %>% 
@@ -160,7 +160,7 @@ daily_report
 
 ### Interactive graphs
 
-```{r}
+```{r, warning=FALSE}
 library(plotly)
 ggplotly(
   ggplot(data = ma_county, mapping = aes(x = long, y = lat, group = group)) + 
@@ -257,7 +257,7 @@ US_cases_9_26 <- report_9_26 %>%
                   "District of Columbia", "Diamond Princess")), Lat > 0)
 ```
 
-```{r}
+```{r, warning=FALSE}
 mybreaks <- c(10, 100, 1000, 10000, 100000, 100000)
 ggplot(US_cases_9_26, aes(x = Long, y = Lat, size = Confirmed/10000)) +
     borders("state", colour = "white", fill = "grey90") +
@@ -285,7 +285,8 @@ ggplot(US_cases_9_26, aes(x = Long, y = Lat, size = Confirmed/10000)) +
 ```
 
 3. 
-```{r}
+
+```{r, warning=FALSE}
 US_Counties_9_26 <- report_9_26 %>% 
   unite(Key, Admin2, Province_State, sep = ".") %>% 
   group_by(Key) %>% 

@@ -3,6 +3,7 @@ title: "lab6_readable_report"
 author: "Abigail Booth"
 date: "October 3, 2020"
 output: html_document
+bibliography: data/references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -92,7 +93,7 @@ us <- map_data("state")
 # We need to join the us map data with our daily report to make one data frame/tibble
 state_join <- left_join(us, daily_report, by = c("region" = "Province_State"))
 ```
-```{r}
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
 # plot state map
 ggplot(data = us, mapping = aes(x = long, y = lat, group = group)) + 
   coord_fixed(1.3) + 
@@ -175,7 +176,7 @@ ggplotly(
   theme(axis.text = element_blank()) 
 )
 ```
-```{r, message=FALSE, warning=FALSE, echo = FALSE, include=FALSE}
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
 # Read in the daily report
 daily_report <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-26-2020.csv")) %>% 
   rename(Long = "Long_") %>% 
@@ -186,9 +187,9 @@ daily_report <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/C
 world <- as_tibble(map_data("world"))
 
 # Check to see if there are differences in the naming of countries
-setdiff(world$region, daily_report$Country_Region) 
+#setdiff(world$region, daily_report$Country_Region) 
 ```
-```
+
 ```{r, message=FALSE, warning=FALSE, echo = FALSE}
 world <- as_tibble(map_data("world")) %>% 
 mutate(region = str_replace_all(region, c("USA" = "US", "Czech Republic" = "Czechia",  
@@ -277,6 +278,7 @@ ggplot(US_cases_9_26, aes(x = Long, y = Lat, size = Confirmed/10000)) +
 ```
 
 3. 
+
 ```{r, message=FALSE, warning=FALSE, echo = FALSE}
 US_Counties_9_26 <- report_9_26 %>% 
   unite(Key, Admin2, Province_State, sep = ".") %>% 
@@ -331,6 +333,6 @@ ggplotly(
  
 # REFERENCES 
 
-This data is sourced from [@JHU_CSSE]. 
+This data is sourced from [@JHU_CSSE]. For full report, see [Lab 6](lab6_alb.html) 
 
 
