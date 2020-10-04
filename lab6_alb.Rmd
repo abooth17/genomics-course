@@ -337,7 +337,8 @@ ggplotly(
 )
 ```
 
-5. Create a report with static maps and interactive graphs that is meant to be read by others (e.g. your friends and family). Hide warnings, messages and even the code you used so that it is readable. Included references. Link to the Lab 6 report from your Github site. Submit the link to Moodle. Hide warnings, messages and even the code you used so that it is readable. Included references. Link to the Lab 6 report from your Github site. Submit the link to Moodle. I will talk more about the format on Wed.
+5. 
+ [Lab6_readable_report](lab6_readable.html)
 
 # References
 

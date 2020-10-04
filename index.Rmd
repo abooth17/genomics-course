@@ -23,7 +23,7 @@ Lab Documents:
 
 * [Lab2](lab2_alb.html)
 
-* Lab3
+* Lab 3
   + [Lab3A](lab3A_alb.html)
   + [Lab3B](lab3B_alb.html)
   
@@ -32,6 +32,12 @@ Lab Documents:
   + Data_Visualization
     + [Part1](lab4A_alb.html)
     + [Part2](lab5A_alb.html)
+    
 * Lab 5
   + [Lab5](lab5_alb.html)
   + [Lab5_extra](lab5_extra.html)
+  
+* Lab 6
+  + [Lab6](lab6_alb.html)
+
+  
