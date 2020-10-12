@@ -39,5 +39,8 @@ Lab Documents:
   
 * Lab 6
   + [Lab6](lab6_alb.html)
+  
+* Lab 7
+  + [Lab7](lab7_alb.html)
 
   
