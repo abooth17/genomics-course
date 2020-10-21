@@ -1,0 +1,276 @@
+---
+title: "Lab8"
+author: "Abigail Booth"
+date: "October 19, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Downloaded the Tree_of_Life_Core_Sequences.fna file and uploaded it into the "One-click" on NGPhylogeny.fr. Through this, the data undergoes multiple alignment with MAFFT, alignment curation, tree inference with FastME and then the tree is rendered. 
+```{r}
+png("images/tree_of_life.png")
+dev.off()
+```
+
+2. Phylogenetic analysis done in CIPRES using MAFFT and FastTreeMP. See question 4 for resultant tree.
+
+
+
+3.
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggtree)
+library(treeio)
+library(ggimage)
+```
+
+# Basic Trees
+
+```{r}
+tree <- read.tree("data/tree_newick.nwk")
+tree
+```
+```{r}
+# build a ggplot with a geom_tree
+ggplot(tree) + geom_tree() + theme_tree()
+
+# This is convenient shorthand
+# ggtree(tree)
+```
+```{r}
+# add a scale
+ggtree(tree) + geom_treescale()
+
+# or add the entire scale to the x axis with theme_tree2()
+ggtree(tree) + theme_tree2()
+```
+```{r}
+ggtree(tree, branch.length="none")
+```
+```{r}
+ggtree(tree, branch.length="none", color="blue", size=2, linetype=3)
+```
+
+# Exercise 1
+1. 
+```{r}
+ggtree(tree, layout="slanted") + theme_tree2()
+```
+2.
+```{r}
+ggtree(tree, layout="circular") + theme_tree2()
+```
+3.
+```{r}
+ggtree(tree, branch.length="none", layout="circular", color="red", size=3)
+```
+
+# Other tree geoms
+```{r}
+# create the basic plot
+p <- ggtree(tree)
+
+# add node points
+p + geom_nodepoint()
+
+# add tip points
+p + geom_tippoint()
+
+# Label the tips
+p + geom_tiplab()
+```
+
+# Exercise 2
+```{r}
+ggtree(tree) + 
+  geom_tiplab(color = "purple") + 
+  geom_tippoint(pch = 18, color = "purple") + 
+  geom_nodepoint(color = "yellow", alpha = 0.5, size = 4) +
+  ggtitle("Exercise 2 Figure")
+```
+
+# Internal node number 
+```{r}
+ggtree(tree) + geom_text(aes(label=node), hjust=-.3)
+```
+```{r}
+ggtree(tree) + geom_tiplab()
+```
+```{r}
+# get internal node numbers
+MRCA(tree, c("C", "E"))
+MRCA(tree, c("G", "H"))
+```
+# Labeling clades
+
+```{r}
+ggtree(tree) + 
+  geom_cladelabel(node=17, label="Some random clade", color="red") +
+  xlim(0, 70)
+```
+```{r}
+ggtree(tree) + 
+  geom_tiplab() + 
+  geom_cladelabel(node=17, label="Some random clade", 
+                  color="red2", offset=.8) +
+  xlim(0, 70)
+```
+```{r}
+ggtree(tree) + 
+  geom_tiplab() + 
+  geom_cladelabel(node=17, label="Some random clade", 
+                  color="red2", offset=.8) + 
+  geom_cladelabel(node=21, label="A different clade", 
+                  color="blue", offset=.8) +
+  xlim(0, 70)
+```
+```{r}
+ggtree(tree) + 
+  geom_tiplab() + 
+  geom_cladelabel(node=17, label="Some random clade", 
+                  color="red2", offset=.8, align=TRUE) + 
+  geom_cladelabel(node=21, label="A different clade", 
+                  color="blue", offset=.8, align=TRUE) + 
+  theme_tree2() + 
+  xlim(0, 70) + 
+  theme_tree()
+```
+```{r}
+ggtree(tree) + 
+  geom_tiplab() + 
+  geom_hilight(node=17, fill="gold") + 
+  geom_hilight(node=21, fill="purple")
+```
+
+# Connecting taxa
+
+```{r}
+ggtree(tree) + 
+  geom_tiplab() + 
+  geom_taxalink("E", "H", color="blue3") +
+  geom_taxalink("C", "G", color="orange2", curvature=-.9)
+```
+
+# Exercise 3
+
+```{r}
+# Find MRCA for B+C and L+J
+MRCA(tree, c("B", "C"))
+MRCA(tree, c("L", "J"))
+```
+```{r}
+# Draw tree
+ggtree(tree) +
+  # Add tip labels
+  geom_tiplab() +
+  # highlight clades
+  geom_hilight(node=19, fill="blue") + 
+  geom_hilight(node=23, fill="darkgoldenrod1") +
+  # label superclade
+  geom_cladelabel(node=17, label="Superclade 17", 
+                  color="red2", offset=.8) +
+  # link clades
+  geom_taxalink("C", "E", color="darkgrey", linetype=2) +
+  geom_taxalink("G", "J", color="darkgrey", linetype=2) +
+  # add a scale bar
+  theme_tree2() +
+  # add a title
+  ggtitle("Exercise 3 Figure")
+```
+
+# Advanced tree annotation
+
+```{r}
+# Read the data
+tree <- read.beast("data/flu_tree_beast.tree")
+# supply a most recent sampling date so you get the dates
+# and add a scale bar
+ggtree(tree, mrsd="2013-01-01") + 
+  theme_tree2() 
+# Finally, add tip labels and adjust axis
+ggtree(tree, mrsd="2013-01-01") + 
+  theme_tree2() + 
+  geom_tiplab(align=TRUE, linesize=.5, hjust=-.1, size=2.5) + 
+  xlim(1990, 2020)
+```
+```{r}
+msaplot(p=ggtree(tree), fasta="data/flu_aasequence.fasta", window=c(150, 175))
+```
+
+# Many trees
+
+```{r}
+set.seed(42)
+trees <- lapply(rep(c(10, 25, 50, 100), 3), rtree)
+class(trees) <- "multiPhylo"
+ggtree(trees) + facet_wrap(~.id, scale="free", ncol=4) + ggtitle("Many trees. Such phylogenetics. Wow.")
+```
+
+# Plot tree w/ other data
+
+```{r}
+# Generate a random tree with 30 tips
+tree <- rtree(30)
+# Make the original plot
+p <- ggtree(tree)
+# generate some random values for each tip label in the data
+d1 <- data.frame(id=tree$tip.label, val=rnorm(30, sd=3))
+# Make a second plot with the original, naming the new plot "dot", 
+# using the data you just created, with a point geom.
+p2 <- facet_plot(p, panel="dot", data=d1, geom=geom_point, aes(x=val), color='red3')
+# Make some more data with another random value.
+d2 <- data.frame(id=tree$tip.label, value = abs(rnorm(30, mean=100, sd=50)))
+# Now add to that second plot, this time using the new d2 data above, 
+# This time showing a bar segment, size 3, colored blue.
+p3 <- facet_plot(p2, panel='bar', data=d2, geom=geom_segment, 
+           aes(x=0, xend=value, y=y, yend=y), size=3, color='blue4') 
+# Show all three plots with a scale
+p3 + theme_tree2()
+```
+
+# Overlay organism silouhettes
+
+```{r}
+# get phylopic 
+newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;"
+tree <- read.tree(text=newick)
+d <- ggimage::phylopic_uid(tree$tip.label)
+d$body_mass = c(52, 114, 47, 45, 58, 6)
+p <- ggtree(tree) %<+% d + 
+  geom_tiplab(aes(image=uid, colour=body_mass), geom="phylopic", offset=2.5) +
+  geom_tiplab(aes(label=label), offset = .2) + xlim(NA, 7) +
+  scale_color_viridis_c()
+p  
+```
+
+4. 
+```{r}
+# read in tree
+tree_of_life <- read.tree("data/fastree_result.tre")
+tree_of_life
+```
+```{r}
+ggtree(tree_of_life, branch.length="none") +
+  xlim(0, 20) +
+  # add axis and tip labels
+  theme_tree2() +
+  geom_tiplab(size=3, hjust=-.1) +
+  # add bootstrap values
+  geom_nodelab(size=2.5, hjust=-.05) + 
+  # highlighting and labelling the clades of different domains
+  geom_hilight(node=30, fill="blue") +
+  geom_cladelabel(node=30, label="Archaea", offset=7) +
+  geom_hilight(node= 36, fill="purple") + 
+  geom_cladelabel(node= 36, label="Bacteria", offset=7) +
+  geom_hilight(node= 25, fill="green") + 
+  geom_cladelabel(node= 25, label="Eukaryota", offset=7)
+```
+```{r}
+# determining which nodes are highlighted
+MRCA(tree_of_life, c("Halalkalicoccus_jeotgali", "Candidatus_Korarchaeum_cryptofilum_"))
+MRCA(tree_of_life, c("Escherichia_coli_", "Prochlorococcus_marinus"))
+MRCA(tree_of_life, c("Trypanosoma_cruzi_nuclear", "Saccharomyces_cerevisiae_nuclear"))
+```

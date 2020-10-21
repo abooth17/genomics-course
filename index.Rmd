@@ -19,9 +19,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Lab Documents:
 
-* [Lab1](lab1_AbigailBooth.html)
+* [Lab 1](lab1_AbigailBooth.html)
 
-* [Lab2](lab2_alb.html)
+* [Lab 2](lab2_alb.html)
 
 * Lab 3
   + [Lab3A](lab3A_alb.html)
@@ -37,10 +37,10 @@ Lab Documents:
   + [Lab5](lab5_alb.html)
   + [Lab5_extra](lab5_extra.html)
   
-* Lab 6
-  + [Lab6](lab6_alb.html)
+* [Lab 6](lab6_alb.html)
   
-* Lab 7
-  + [Lab7](lab7_alb.html)
+* [Lab 7](lab7_alb.html)
+  
+* [Lab 8](lab8_alb.html)
 
   
