@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 1. Downloaded the Tree_of_Life_Core_Sequences.fna file and uploaded it into the "One-click" on NGPhylogeny.fr. Through this, the data undergoes multiple alignment with MAFFT, alignment curation, tree inference with FastME and then the tree is rendered. 
 
-![Tree_of_Life](images/tree_of_life.png)
+![](images/tree_of_life.png)
 
 2. Phylogenetic analysis done in CIPRES using MAFFT and FastTreeMP. See question 4 for resultant tree.
 
