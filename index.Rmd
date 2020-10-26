@@ -43,4 +43,5 @@ Lab Documents:
   
 * [Lab 8](lab8_alb.html)
 
+* [Lab 9](lab9.html)
   

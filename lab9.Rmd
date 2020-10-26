@@ -1,0 +1,499 @@
+---
+title: "Lab_9"
+author: "Abigail Booth"
+date: "October 26, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Matching patterns w/ regular expressions
+
+```{r, message=FALSE, warning=FALSE}
+library(stringr)
+library(tidyverse)
+```
+
+# Basic matches
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_view(x, "an")
+```
+```{r}
+str_view(x, ".a.")
+```
+```{r}
+# To create the regular expression, we need \\
+dot <- "\\."
+
+# But the expression itself only contains one:
+writeLines(dot)
+```
+```{r}
+# And this tells R to look for an explicit .
+x <- c("abc", "a.c", "bef")
+str_view(x, "a\\.c")
+```
+```{r}
+x <- "a\\b"
+writeLines(x)
+str_view(x, "\\\\")
+```
+
+# Exercises
+
+1. The strings don't match because \ is the literal regular expression and "\" is an escape character meaning that it just goes down to the next character. "\\" codes for the escape character and "\\\\" matches a literal \ and then escapes to the following character. 
+
+2. You would match the sequence "'\ with:
+```{r}
+x <- "\"'\\"
+writeLines(x)
+str_view(x, "\"'\\\\")
+```
+
+# Anchors
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_view(x, "^a")
+```
+```{r}
+str_view(x, "a$")
+```
+```{r}
+x <- c("apple pie", "apple", "apple cake")
+str_view(x, "apple")
+```
+```{r}
+str_view(x, "^apple$")
+```
+
+# Exercises
+
+1. You would match the literal string "$^$" with:
+```{r}
+str_view("$^$", "^\\$\\^\\$$")
+```
+2.
+```{r}
+# find words that start w/ y
+str_view(stringr::words, "^y", match=TRUE)
+```
+```{r}
+# find words that end with x
+str_view(stringr::words, "x$", match=TRUE)
+```
+```{r}
+# find words that are exactly 3 letters long
+str_view(stringr::words, "^...$", match=TRUE)
+```
+```{r}
+# find words that have 7 letters or more
+str_view(stringr::words, ".......", match=TRUE)
+```
+
+# Character classes and alternatives
+
+```{r}
+# Look for a literal character that normally has special meaning in a regex
+x <- c("abc", "a.c", "a*c", "a c")
+str_view(x, "a[.]c")
+```
+```{r}
+str_view(x, ".[*]c")
+```
+```{r}
+str_view(x, "a[ ]")
+```
+```{r}
+x <- c("grey", "gray")
+str_view(x, "gr(e|a)y")
+```
+# Exercises
+
+1. 
+```{r}
+# find words that start w/ a vowel
+str_view(stringr::words, "^(a|e|i|o|u)", match=TRUE)
+```
+```{r}
+# find words that only contain consonants
+str_view(stringr::words, "(a|e|i|o|u)", match=FALSE)
+```
+```{r}
+# find words that end w/ ed, but not eed
+str_view(stringr::words, "[^e]ed$", match=TRUE)
+```
+```{r}
+# find words that end w/ ing or ise
+str_view(stringr::words, "(ing|ise)$", match=TRUE) 
+```
+2.
+```{r}
+# i before e except after c
+length(str_subset(stringr::words, "(cei|[^c]ie)"))
+# e before i except after c
+length(str_subset(stringr::words, "(cie|[^c]ei)"))
+```
+3.
+```{r}
+length(str_subset(stringr::words, "q[^u]"))
+```
+In the case of all the words in stringr::words, all of themhave q followed by u.
+
+# Repetition
+
+```{r}
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")
+```
+```{r}
+str_view(x, "CC+")
+```
+```{r}
+str_view(x, 'C[LX]+')
+```
+
+```{r}
+str_view(x, "C{2}")
+```
+```{r}
+str_view(x, "C{2,}")
+```
+```{r}
+str_view(x, "C{2,}")
+```
+```{r}
+str_view(x, 'C{2,3}?')
+```
+```{r}
+str_view(x, 'C[LX]+?')
+```
+
+# Exercises
+
+1. The equivalent of ? is {0, 1}, + is {1,}, and * is {0,}
+
+2. 
+  * ^.*$ is any string
+  * "\\{.+\\}" is any string with {} surrrounding at least one character
+  * \d{4}-\d{2}-\d{2} is any 4 numbers followed by a hyphen followed by any two numbers followed by a hyphen followed by any 2 numbers
+  * "\\\\{4}" is 4 backslashes
+
+3.
+```{r}
+# find words that start w/ 3 consonants
+str_view(stringr::words, "^[^a|e|i|o|u]{3}", match=TRUE)
+```
+```{r}
+# find words that have 3 or more vowels in a row
+str_view(stringr::words, "[a|e|i|o|u]{3,}", match=TRUE)
+```
+```{r}
+# find words that have 2 or more vowel-consonant pairs in a row
+str_view(stringr::words, "([a|e|i|o|u][^a|e|i|o|u]){2,}", match=TRUE)
+```
+
+# Grouping and backreferences
+
+```{r}
+str_view(fruit, "(..)\\1", match = TRUE)
+```
+
+# Exercises
+
+1. 
+  * (.)\1\1 matches the same character 3 consecutive times
+  * "(.)(.)\\2\\1" matches a group of 2 characters followed by those characters in the opposite order
+  * (..)\1 matches any two characters that are repeated at least once
+  * "(.).\\1.\\1" matches a character followed by any character, the first character followed by any character followed by the first character.
+  * "(.)(.)(.).*\\3\\2\\1" matches 3 characters followed by 0 or more characters followed by the first 3 characters in a reversed order.
+  
+2. 
+```{r}
+# find words that start and end w/ same character
+str_view(stringr::words, "^(.)((.*\\1$)|(\\1?$))", match=TRUE)
+```
+```{r}
+# find words that contain a repeated pair of letters
+str_view(stringr::words, "(..).*\\1", match=TRUE)
+```
+```{r}
+# find words that contain one letter repeated in at least 3 places
+str_view(stringr::words, "([a-z]).*\\1.*\\1", match=TRUE)
+```
+
+# Detect matches
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_detect(x, "e")
+```
+```{r}
+# How many common words start with t?
+sum(str_detect(words, "^t"))
+```
+
+```{r}
+# What proportion of common words end with a vowel?
+mean(str_detect(words, "[aeiou]$"))
+```
+```{r}
+# Find all words containing at least one vowel, and negate
+no_vowels_1 <- !str_detect(words, "[aeiou]")
+```
+```{r}
+# Find all words consisting only of consonants (non-vowels)
+no_vowels_2 <- str_detect(words, "^[^aeiou]+$")
+identical(no_vowels_1, no_vowels_2)
+```
+```{r}
+words[str_detect(words, "x$")]
+```
+
+```{r}
+str_subset(words, "x$")
+```
+```{r}
+df <- tibble(
+  word = words, 
+  i = seq_along(word)
+)
+df %>% 
+  filter(str_detect(word, "x$"))
+```
+```{r}
+x <- c("apple", "banana", "pear")
+str_count(x, "a")
+```
+```{r}
+# On average, how many vowels per word?
+mean(str_count(words, "[aeiou]"))
+```
+```{r}
+df %>% 
+  mutate(
+    vowels = str_count(word, "[aeiou]"),
+    consonants = str_count(word, "[^aeiou]")
+  )
+```
+
+Note that matches never overlap. For example, in `"abababa"`, how many times will the pattern `"aba"` match? Regular expressions say two, not three:
+
+```{r}
+str_count("abababa", "aba")
+```
+```{r}
+str_view_all("abababa", "aba")
+```
+
+# Exercises
+
+1. 
+```{r}
+# one regular expression
+str_view(stringr::words, "^x|x$", match=TRUE)
+```
+```{r}
+# multiple str_detect()
+words[str_detect(words, "^x")]
+words[str_detect(words, "x$")]
+```
+```{r}
+# one regular expression
+str_view(stringr::words, "^[a|e|i|o|u].*[^(a|e|i|o|u)]$", match=TRUE) 
+```
+```{r}
+# multiple str_detect()
+words[str_detect(words, "^[a|e|i|o|u]")] %>% head()
+words[str_detect(words, "[^(a|e|i|o|u)]$")] %>% head()
+```
+
+```{r}
+words[str_detect(words, "a") &
+  str_detect(words, "e") &
+  str_detect(words, "i") &
+  str_detect(words, "o") &
+  str_detect(words, "u")]
+```
+There're no words that contain at least one of each different vowel.
+
+# Extract matches
+
+```{r}
+length(sentences)
+```
+```{r}
+head(sentences)
+```
+```{r}
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+colour_match
+```
+```{r}
+has_colour <- str_subset(sentences, colour_match)
+matches <- str_extract(has_colour, colour_match)
+head(matches)
+```
+```{r}
+# Test regex
+has_colour
+```
+```{r}
+# select sentences w/ more than 1 match
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_view_all(more, colour_match)
+```
+```{r}
+str_extract(more, colour_match)
+```
+```{r}
+str_extract_all(more, colour_match)
+```
+```{r}
+str_extract_all(more, colour_match, simplify = TRUE)
+```
+```{r}
+x <- c("a", "a b", "a b c")
+str_extract_all(x, "[a-z]", simplify = TRUE)
+```
+
+# Exercises
+
+1. 
+```{r}
+colors_fixed <- c("red", "orange", "yellow", "green", "blue", "purple")
+color_match_fixed <- str_c("\\b(", str_c(colors_fixed, collapse = "|"), ")\\b")
+more <- sentences[str_count(sentences, color_match_fixed) > 1]
+str_view_all(more, color_match_fixed)
+```
+2.
+```{r}
+# extract first word from each sentence
+str_extract(sentences, "[A-Za-z][A-Za-z']*") %>%  head()
+```
+```{r}
+# Extract all words ending in ing
+ing <- "\\b[a-z]+ing\\b"
+sent_w_ing <- str_detect(sentences, ing)
+unique(unlist(str_extract_all(sentences[sent_w_ing], ing))) %>%  head()
+```
+
+# Grouped matches
+
+```{r}
+noun <- "(a|the) ([^ ]+)"
+has_noun <- sentences %>%
+  str_subset(noun) %>%
+  head(10)
+has_noun %>% 
+  str_extract(noun)
+```
+```{r}
+has_noun %>% 
+  str_match(noun)
+```
+```{r}
+tibble(sentence = sentences) %>% 
+  tidyr::extract(
+    sentence, c("article", "noun"), "(a|the) ([^ ]+)", 
+    remove = FALSE
+  )
+```
+
+# Exercises
+
+1. 
+```{r}
+after_num <- "\\b(one|two|three|four|five|six|seven|eight|nine|ten) ([^ ]+)"
+
+sentences[str_detect(sentences, after_num)] %>%
+  str_extract(after_num)
+```
+2. 
+```{r}
+contract <- "([A-Za-z]+)'([A-Za-z]+)"
+
+sentences[str_detect(sentences, contract)] %>%
+  str_extract(contract) %>%
+  str_split("'")
+```
+
+# Replacing matches
+
+```{r}
+x <- c("apple", "pear", "banana")
+str_replace(x, "[aeiou]", "-")
+```
+```{r}
+str_replace_all(x, "[aeiou]", "-")
+```
+```{r}
+x <- c("1 house", "2 cars", "3 people")
+str_replace_all(x, c("1" = "one", "2" = "two", "3" = "three"))
+```
+```{r}
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2") %>% 
+  head(5)
+```
+
+# Exercises
+
+1.
+```{r}
+slashes <- c("yes/no/maybe")
+str_replace_all(slashes, "/", "\\\\")
+```
+
+# Splitting
+
+```{r}
+sentences %>%
+  head(5) %>% 
+  str_split(" ")
+```
+```{r}
+"a|b|c|d" %>% 
+  str_split("\\|") %>% 
+  .[[1]]
+```
+```{r}
+sentences %>%
+  head(5) %>% 
+  str_split(" ", simplify = TRUE)
+```
+```{r}
+fields <- c("Name: Hadley", "Country: NZ", "Age: 35")
+fields %>% str_split(": ", n = 2, simplify = TRUE)
+```
+```{r}
+x <- "This is a sentence.  This is another sentence."
+str_view_all(x, boundary("word"))
+```
+```{r}
+str_split(x, " ")[[1]]
+```
+```{r}
+str_split(x, boundary("word"))[[1]]
+```
+
+# Exercises
+
+1. 
+```{r}
+str_split("apples, pears, and bananas", boundary("word"))[[1]]
+# get rid of and
+str_split("apples, pears, and bananas", ", +(and +)?")[[1]]
+```
+2. It's better to split up by boundaries rather than spaces because there could be commas and other forms of punctuation (other than apostrophies), which the " " couldn't account for. 
+
+3. Splitting with an empty string splits the string into individual characters.
+```{r}
+str_split("apples, pears, and bananas", "")[[1]]
+```
+
