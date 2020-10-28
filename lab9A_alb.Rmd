@@ -1,0 +1,162 @@
+---
+title: "Lab_9A"
+author: "Abigail Booth"
+date: "October 28, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Conditional statements w/ if-else
+
+```{r, eval=FALSE}
+if(<condition>) {
+        ## do something
+} 
+## Continue with rest of code
+```
+```{r, eval=FALSE}
+if(<condition>) {
+        ## do something
+} 
+else {
+        ## do something else
+}
+```
+```{r, eval=FALSE}
+if(<condition1>) {
+        ## do something
+} else if(<condition2>)  {
+        ## do something different
+} else {
+        ## do something different
+}
+```
+```{r, prompt=FALSE}
+## Generate a uniform random number
+x <- runif(1, 2, 10)  
+if(x > 2) {
+        y <- 10
+} else {
+        y <- 0
+}
+```
+
+# for loops
+
+```{r}
+for(i in 0:5) {
+        print(i)
+}
+```
+```{r}
+x <- c("a", "b", "c", "d")
+for(i in 2:3) {
+        ## Print out each element of 'x'
+        print(x[i])  
+}
+```
+```{r}
+## Generate a sequence based on length of 'x'
+for(i in seq_along(x)) {   
+        print(x[i+1])
+}
+```
+```{r}
+for(letter in x) {
+        print(letter)
+}
+```
+```{r}
+for(i in 1:3) print(x[i])
+```
+
+# Nested for loops
+
+```{r}
+x <- matrix(1:6, 3, 3)
+for(i in seq_len(nrow(x))) {
+        for(j in seq_len(ncol(x))) {
+                print(x[i, j])
+        }   
+}
+```
+
+# while loops
+
+```{r}
+count <- 0
+while(count <= 10) {
+        print(count)
+        count <- count + 2
+}
+```
+```{r}
+z <- 5
+set.seed(1)
+while(z > 3 && z < 10) {
+        coin <- rbinom(1, 1, 0.25)
+        
+        if(coin == 1) {  ## random walk
+                z <- z + 1
+        } else {
+                z <- z - 1
+        } 
+}
+print(z)
+```
+
+# Your first function
+
+```{r}
+f <- function() {
+        ## This is an empty function
+}
+## Functions have their own class
+class(f)  
+## Execute this function
+f()       
+```
+```{r}
+f <- function() {
+        cat("Hello, world!\n")
+}
+f()
+```
+```{r}
+f <- function(num) {
+        for(i in seq_len(num)) {
+                cat("Hello, world!\n")
+        }
+}
+f(5)
+```
+```{r}
+f <- function(num) {
+        hello <- "Hello, world!\n"
+        for(i in seq_len(num)) {
+                cat(hello)
+        }
+        chars <- nchar(hello) * (num - 1)
+        chars
+}
+meaningoflife <- f(3)
+print(meaningoflife)
+```
+```{r}
+f <- function(num = 2) {
+        hello <- "Hello, world!\n"
+        for(i in seq_len(num)) {
+                cat(hello)
+        }
+        chars <- nchar(hello) * num
+        chars
+}
+f()    ## Use default value for 'num'
+f(1)   ## Use user-specified value
+```
+```{r}
+f(num = 5)
+```
