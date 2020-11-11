@@ -1,0 +1,53 @@
+---
+title: "Plot_Microbiome_networks"
+author: "Abigail Booth"
+date: "November 11, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Plot microbiome network
+
+```{r}
+library("phyloseq")
+library("ggplot2")
+data(enterotype)
+```
+```{r}
+# explicitly set random number generator seed
+set.seed(711L)
+```
+```{r}
+enterotype = subset_samples(enterotype, !is.na(Enterotype))
+```
+
+### plot_net function
+
+```{r}
+plot_net(enterotype, maxdist = 0.4, point_label = "Sample_ID")
+```
+```{r}
+plot_net(enterotype, maxdist = 0.3, color = "SeqTech", shape="Enterotype")
+```
+
+### plot_network function
+
+```{r}
+ig <- make_network(enterotype, max.dist=0.3)
+plot_network(ig, enterotype)
+```
+```{r}
+plot_network(ig, enterotype, color="SeqTech", shape="Enterotype", line_weight=0.4, label=NULL)
+```
+```{r}
+ig <- make_network(enterotype, max.dist=0.2)
+plot_network(ig, enterotype, color="SeqTech", shape="Enterotype", line_weight=0.4, label=NULL)
+```
+```{r}
+ig <- make_network(enterotype, dist.fun="bray", max.dist=0.3)
+plot_network(ig, enterotype, color="SeqTech", shape="Enterotype", line_weight=0.4, label=NULL)
+```
+

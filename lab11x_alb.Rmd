@@ -1,0 +1,24 @@
+---
+title: "Lab_11x"
+author: "Abigail Booth"
+date: "November 11, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+Introduction to Microbiome Analysis with phyloseq
+
+
+
+* [Ordination Plots](lab11_ord.html)
+
+* [Alpha Diversity Graphics](lab11_alpha.html)
+
+* [Heatmap Plots](lab11_heat.html)
+
+* [Plot Microbiome Network](lab11_net.html)

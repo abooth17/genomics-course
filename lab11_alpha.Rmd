@@ -1,0 +1,67 @@
+---
+title: "Alpha_Diversity_graphics"
+author: "Abigail Booth"
+date: "November 11, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Alpha Diversity graphics
+
+```{r}
+library("phyloseq")
+data("GlobalPatterns")
+library("ggplot2")
+theme_set(theme_bw())
+pal = "Set1"
+scale_colour_discrete <-  function(palname=pal, ...){
+  scale_colour_brewer(palette=palname, ...)
+}
+scale_fill_discrete <-  function(palname=pal, ...){
+  scale_fill_brewer(palette=palname, ...)
+}
+```
+```{r}
+GP <- prune_species(speciesSums(GlobalPatterns) > 0, GlobalPatterns)
+```
+
+### Plot examples
+
+```{r}
+plot_richness(GP)
+```
+```{r}
+plot_richness(GP, measures=c("Chao1", "Shannon"))
+```
+```{r}
+plot_richness(GP, x="SampleType", measures=c("Chao1", "Shannon"))
+```
+```{r}
+sampleData(GP)$human <- getVariable(GP, "SampleType") %in% c("Feces", "Mock", "Skin", "Tongue")
+```
+```{r}
+plot_richness(GP, x="human", color="SampleType", measures=c("Chao1", "Shannon"))
+```
+```{r}
+GPst = merge_samples(GP, "SampleType")
+# repair variables that were damaged during merge (coerced to numeric)
+sample_data(GPst)$SampleType <- factor(sample_names(GPst))
+sample_data(GPst)$human <- as.logical(sample_data(GPst)$human)
+```
+```{r}
+p = plot_richness(GPst, x="human", color="SampleType", measures=c("Chao1", "Shannon"))
+p + geom_point(size=5, alpha=0.7)
+```
+
+### More details about ggplot2
+
+```{r}
+p$layers
+```
+```{r}
+p$layers <- p$layers[-1]
+p + geom_point(size=5, alpha=0.7)
+```
