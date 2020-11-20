@@ -1,16 +1,10 @@
 ---
 title: "Bio 597GE: Evolutionary Genomics and Bioinformatics"
 author: "Abigail Booth"
-navbar:
-  title: "Home"
-  left:
-     - text: "Home"
-       href: index.html
-     - text: "R Labs"
-       href: Labs.html
 output: 
-  html_document:
+  prettydoc::html_pretty:
     theme: flatly
+    highlight: github
 ---
 
 ```{r setup, include=FALSE}
@@ -50,4 +44,6 @@ Lab Documents:
 
 * [Lab 11](lab11_alb.html)
   + [Lab 11x](lab11x_alb.html)
+  
+* [Lab 12/13](lab12_alb.html)
   
